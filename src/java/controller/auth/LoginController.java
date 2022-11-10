@@ -5,6 +5,7 @@
 package controller.auth;
 
 import dal.AccountDBContext;
+import dal.LecturerDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Account;
+import model.Lecturer;
 
 /**
  *
@@ -65,7 +67,10 @@ public class LoginController extends HttpServlet {
         Account account = db.get(username, password);
         if (account != null) {
             request.getSession().setAttribute("account", account);
-            response.getWriter().println("login successful!");
+            LecturerDBContext lecDB = new LecturerDBContext();
+            Lecturer l = lecDB.get(account.getDisplayname());
+                request.getSession().setAttribute("lid", l.getId());
+                response.sendRedirect("lecture?lid=" + l.getId());
         } else {
             response.getWriter().println("login failed!");
         }

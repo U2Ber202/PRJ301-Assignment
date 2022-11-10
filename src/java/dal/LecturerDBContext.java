@@ -57,5 +57,21 @@ public class LecturerDBContext extends dal.DBContext<Lecturer> {
     public ArrayList<Lecturer> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+    public Lecturer get(String displayname) {
+        try {
+            String sql = "SELECT * FROM Lecturer Where lname = ?";
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, displayname);
+            ResultSet rs = stm.executeQuery();
+            if(rs.next()){
+                Lecturer l = new Lecturer();
+                l.setId(rs.getInt("lid"));
+                l.setName(rs.getString("lname"));
+                return l;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LecturerDBContext.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

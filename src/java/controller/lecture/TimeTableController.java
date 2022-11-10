@@ -28,7 +28,7 @@ public class TimeTableController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int lid = 1;
+        int lid = Integer.parseInt(request.getParameter("lid"));
         String raw_from = request.getParameter("from");
         String raw_to = request.getParameter("to");
         java.sql.Date from = null;
